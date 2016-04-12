@@ -1,18 +1,19 @@
 (function (window) {
   "use strict";
-  
+
   window.templateStore = {
-    
+
   };
-  
+
   var app = {
     initialize: function () {
-      var page = new window.View({
+      var pageView = new window.View({
         el: document.getElementById("page"),
-        template: "/templates/page-template.html"
+        template: "/templates/page-template.html",
+        templateId: "template-page"
       });
 
-      console.log(page);
+      pageView.render();
     }
   };
   app.initialize();
