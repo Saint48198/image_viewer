@@ -3,6 +3,45 @@
   function define() {
     var httpRequest;
 
+    var convertToDom = function (htmlString) {
+      var wrapper = document.createElement("div");
+      wrapper.innerHTML = htmlString;
+
+      return wrapper.firstChild;
+    };
+
+    // ref - http://krasimirtsonev.com/blog/article/Javascript-template-engine-in-just-20-line
+    var templateEngine = function(html, options) {
+      var re = /<%(.+?)%>/g;
+      var reExp = /(^( )?(var|if|for|else|switch|case|break|{|}|;))(.*)?/g;
+      var code = 'with(obj) { var r=[];\n';
+      var cursor = 0;
+      var result;
+      var match;
+      var add = function(line, js) {
+        js ? (code += line.match(reExp) ? line + '\n' : 'r.push(' + line + ');\n') :
+          (code += line != '' ? 'r.push("' + line.replace(/"/g, '\\"') + '");\n' : '');
+        return add;
+      };
+
+      while(match = re.exec(html)) {
+        add(html.slice(cursor, match.index))(match[1], true);
+        cursor = match.index + match[0].length;
+      }
+
+      add(html.substr(cursor, html.length - cursor));
+
+      code = (code + 'return r.join(""); }').replace(/[\r\t\n]/g, ' ');
+
+      try {
+        result = new Function('obj', code).apply(options, [options]);
+      } catch(err) {
+        console.error("'" + err.message + "'", " in \n\nCode:\n", code, "\n");
+      }
+
+      return result;
+    };
+
     var View = function (options) {
       this.initialize.apply(this, arguments);
     };
@@ -48,7 +87,7 @@
         // call is successful
         if (httpRequest.status === 200) {
           this.appendTemplateToPage(httpRequest.responseText);
-          this.replaceWithTemplate(this.templateId, this.el, {});
+          this.replaceWithTemplate(this.templateId, this.el, this.context);
         } else {
           alert('There was a problem with the request.');
         }
@@ -56,7 +95,7 @@
     };
 
     View.prototype.appendTemplateToPage = function (htmlString) {
-      var html = View.convertToDom(htmlString);
+      var html = convertToDom(htmlString);
 
       // update the template store with the new template
       window.templateStore[this.template] = html;
@@ -65,19 +104,15 @@
       document.getElementsByTagName("body")[0].appendChild(html);
     };
 
-    View.prototype.replaceWithTemplate = function(templateId, containerElement) {
-      var template = document.getElementById(templateId).innerHTML;
+    View.prototype.replaceWithTemplate = function(templateId, containerElement, context) {
+      var template = document.getElementById(templateId);
+      var html;
 
-      if (templateId) {
-        containerElement.innerHTML = template;
+
+      if (template) {
+        html = templateEngine(template.innerHTML, context);
+        containerElement.innerHTML = html;
       }
-    };
-
-    View.convertToDom = function (htmlString) {
-      var wrapper = document.createElement("div");
-      wrapper.innerHTML = htmlString;
-
-      return wrapper.firstChild;
     };
 
     return View;

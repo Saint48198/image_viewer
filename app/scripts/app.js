@@ -10,7 +10,10 @@
       var pageView = new window.View({
         el: document.getElementById("page"),
         template: "/templates/page-template.html",
-        templateId: "template-page"
+        templateId: "template-page",
+        context: {
+          copyYear: new Date().getFullYear()
+        }
       });
 
       pageView.render();
