@@ -48,6 +48,7 @@
         // call is successful
         if (httpRequest.status === 200) {
           this.appendTemplateToPage(httpRequest.responseText);
+          this.replaceWithTemplate(this.templateId, this.el, {});
         } else {
           alert('There was a problem with the request.');
         }
@@ -62,6 +63,14 @@
 
       // append the html template to the end of the body
       document.getElementsByTagName("body")[0].appendChild(html);
+    };
+
+    View.prototype.replaceWithTemplate = function(templateId, containerElement) {
+      var template = document.getElementById(templateId).innerHTML;
+
+      if (templateId) {
+        containerElement.innerHTML = template;
+      }
     };
 
     View.convertToDom = function (htmlString) {
