@@ -46,17 +46,32 @@
       this.initialize.apply(this, arguments);
     };
 
+    View.prototype.initialize = function (options) {
+      for (var key in options) {
+        this[key] = options[key];
+      }
+
+      if (typeof (this.onIntitialize) !== 'undefined') {
+        this.onIntitialize.call(this);
+      }
+    };
+
+    View.prototype.render = function () {
+      // get template html string via ajax call if it
+      if (!window.templateStore[this.template]) {
+        this.getTemplate(this.template);
+        return false;
+      }
+
+      if (typeof (this.onRender) !== 'undefined') {
+        this.onRender.call(this);
+      }
+    };
+
     View.prototype.getTemplate = function (templateString) {
 
       if (typeof(templateString) === 'undefined') {
         return false;
-      }
-
-      // get template html string from template store if possible in order to reduce number of ajax calls
-      if (typeof(window.templateStore) !== 'undefined') {
-        if (window.templateStore[templateString]) {
-          return window.templateStore[templateString];
-        }
       }
 
       httpRequest = new XMLHttpRequest();
@@ -71,23 +86,14 @@
       httpRequest.send();
     };
 
-    View.prototype.initialize = function (options) {
-      for (var key in options) {
-        this[key] = options[key];
-      }
-    };
-
-    View.prototype.render = function (action) {
-      this.getTemplate(this.template);
-    };
-
     View.prototype.handleTemplateRequest = function () {
       // call is done
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         // call is successful
         if (httpRequest.status === 200) {
           this.appendTemplateToPage(httpRequest.responseText);
-          this.replaceWithTemplate(this.templateId, this.el, this.context);
+          window.templateStore[this.template];
+          this.render();
         } else {
           alert('There was a problem with the request.');
         }
