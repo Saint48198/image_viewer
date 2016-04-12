@@ -16,9 +16,14 @@
           var images = new Collection({
             url: "https://www.reddit.com/r/aww.json",
             success: function (data) {
-              var images =  new window.View({
-                
+              var imagesView =  new window.View({
+                el: document.getElementsByTagName("main")[0],
+                template: "/templates/images-template.html",
+                onRender: function () {
+                  imagesView.replaceWithTemplate("template-images", imagesView.el, { images: data });
+                }
               });
+              imagesView.render();
               console.log(data);
             },
             error: function () {
