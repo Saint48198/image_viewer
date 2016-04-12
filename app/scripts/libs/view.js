@@ -114,10 +114,19 @@
       var template = document.getElementById(templateId);
       var html;
 
-
       if (template) {
         html = templateEngine(template.innerHTML, context);
         containerElement.innerHTML = html;
+      }
+    };
+
+    View.prototype.appendUsingTemplate = function (templateId, containerElement, context) {
+      var template = document.getElementById(templateId);
+      var html;
+
+      if (template) {
+        html = templateEngine(template.innerHTML, context);
+        containerElement.appendChild(convertToDom(html.trim()));
       }
     };
 
