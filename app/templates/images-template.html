@@ -2,7 +2,7 @@
   <div>
     <ul id="list-images">
       <%for(var image in this.images) {%>
-      <li><%this.images[image].title%></li>
+      <li><img src="<%this.images[image].image%>" alt="<%this.images[image].title%>"></li>
       <%}%>
     </ul>
   </div>

@@ -14,7 +14,7 @@
           pageView.replaceWithTemplate("template-page", pageView.el, { copyYear: new Date().getFullYear() });
 
           var images = new Collection({
-            url: "https://www.reddit.com/r/aww.json",
+            url: "https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=ab7d8b1ae8f6e5991c44c31f529783f7&gallery_id=72157663204881480&format=json&nojsoncallback=1&api_sig=60ba826eed2ca240e784bff9a4f9bef1",
             success: function (data) {
               var imagesView =  new window.View({
                 el: document.getElementsByTagName("main")[0],

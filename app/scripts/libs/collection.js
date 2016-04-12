@@ -70,14 +70,14 @@
       }
     };
 
-    Collection.prototype.parse =  function(resp) {
-
-      if (resp.data) {
-        resp.data.children.forEach(function (node, index) {
-          this.items.push({ id: index, title: node.data.title, image: node.data.url });
+    Collection.prototype.parse = function(resp) {
+      console.log(resp);
+      if (resp.photos) {
+        resp.photos.photo.forEach(function (node, index) {
+          this.items.push({ id: index, title: node.title, image: "https://farm2.staticflickr.com/" + node.server + "/" + node.id + "_" + node.secret + ".jpg" });
         }.bind(this));
       }
-      
+
       if (this.success) {
         this.success.call(this, this.items);
       }
