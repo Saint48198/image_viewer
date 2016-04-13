@@ -1,11 +1,11 @@
 <script id="template-images" type="text/html">
-  <div>
+  <div id="container-imageViewer">
     <ul id="list-images">
       <%for(var image in this.images) {%>
       <li>
-        <figure data-id="<%this.images[image].id%>">
+        <a href="#<%this.images[image].id%>" data-id="<%this.images[image].id%>">
           <img src="<%this.images[image].thumbnail%>" alt="<%this.images[image].title%>">
-        </figure>
+        </a>
       </li>
       <%}%>
     </ul>
@@ -19,10 +19,11 @@
   </div>
 </script>
 <script id="template-lightboxContent" type="text/html">
-  <figure>
-    <img src="<%data.image%>" alt="<%data.title%>">
-  </figure>
+  <figure><img src="<%data.image%>" alt="<%data.title%>"></figure>
   <div class="btn-control btn-prev"><button type="button" title="previous" id="btn-previous" data-id="<%data.id%>"><<</button></div>
   <div class="btn-control btn-next"><button type="button" title="next" id="btn-next" data-id="<%data.id%>">>></button></div>
-  <div class="btn-control btn-close"><button type="button" title="close" id="btn-close">x</button> </div>
+  <div class="btn-control btn-close">
+    <div><%data.number%> of <%data.total%></div>
+    <button type="button" title="close" id="btn-close">x</button>
+  </div>
 </script>

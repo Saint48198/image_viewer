@@ -21,6 +21,11 @@
                 template: "/templates/images-template.html",
                 onRender: function () {
                   imagesView.replaceWithTemplate("template-images", imagesView.el, { images: data });
+
+                  // show lightbox for hash id to allow bookmarking of large images
+                  if (window.location.hash) {
+                    pageView.displayLightBlock(parseInt(window.location.hash.substr(1)));
+                  }
                 }
               });
               imagesView.render();
@@ -45,11 +50,11 @@
           }
 
           if (target.getAttribute("data-id")) {
-            pageView.displayLightBock(parseInt(target.getAttribute("data-id")));
+            pageView.displayLightBlock(parseInt(target.getAttribute("data-id")));
           }
         },
 
-        displayLightBock: function (id) {
+        displayLightBlock: function (id) {
           this.removeLightBox();
 
           var image = pageView.imagesCollection.get(id);
@@ -73,9 +78,13 @@
         },
 
         removeLightBox: function () {
+          // remove the element attached to the lightbox and then the element from the dom
+          // removing elements has poor performance. Refactor could do something smarter like use list of elements to store and just scroll through them
+          // update the url to not have a hash
           if (document.getElementById("modal-image")) {
             document.getElementById("modal-image").removeEventListener("click", pageView.handleLightBoxClickEvents, false);
             pageView.removeElement("modal-image");
+            pageView.removeHash();
           }
         },
 
@@ -103,6 +112,9 @@
 
           if (typeof (id) !== 'undefined') {
             var image = pageView.imagesCollection.get(id);
+            image.total = total + 1;
+            image.number = id + 1;
+
             if (image) {
               pageView.replaceWithTemplate("template-lightboxContent", document.getElementById("container-content"), { data: image });
             }
@@ -113,6 +125,10 @@
 
         removeElement: function(id) {
           return (pageView.tmpElem = document.getElementById(id)).parentNode.removeChild(pageView.tmpElem);
+        },
+
+        removeHash: function  () {
+          history.pushState("", document.title, window.location.pathname + window.location.search);
         }
       });
 

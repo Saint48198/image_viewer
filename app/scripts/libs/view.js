@@ -102,7 +102,6 @@
 
     View.prototype.appendTemplateToPage = function (htmlString) {
       var html = convertToDom(htmlString);
-      console.log(html);
       // update the template store with the new template
       window.templateStore[this.template] = html;
 
