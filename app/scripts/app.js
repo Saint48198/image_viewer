@@ -13,7 +13,7 @@
         onRender: function () {
           pageView.replaceWithTemplate("template-page", pageView.el, { copyYear: new Date().getFullYear() });
 
-          var images = new Collection({
+          pageView.imagesCollection = new Collection({
             url: "https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=0a50a1937d5ca6f848582b724238ef9b&gallery_id=72157663204881480&format=json&nojsoncallback=1",
             success: function (data) {
               var imagesView =  new window.View({
@@ -33,7 +33,7 @@
             }
           });
 
-          images.fetch();
+          pageView.imagesCollection.fetch();
 
 
         }.bind(this),
@@ -51,8 +51,9 @@
 
         displayLightBock: function (id) {
           this.removeLightBox();
-          console.log(id);
-          pageView.appendUsingTemplate("template-lightbox", document.getElementsByTagName("body")[0], {});
+          
+          var image = pageView.imagesCollection.get(id);
+          pageView.appendUsingTemplate("template-lightbox", document.getElementsByTagName("body")[0], { data: image });
 
           document.getElementById("modal-image").addEventListener("click", pageView.handleLightBoxClickEvents);
 
