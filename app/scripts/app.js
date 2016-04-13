@@ -24,7 +24,6 @@
                 }
               });
               imagesView.render();
-              console.log(data);
             },
             error: function () {
 

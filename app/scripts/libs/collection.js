@@ -71,10 +71,11 @@
     };
 
     Collection.prototype.parse = function(resp) {
-      console.log(resp);
       if (resp.photos) {
         resp.photos.photo.forEach(function (node, index) {
-          this.items.push({ id: index, title: node.title, image: "https://farm2.staticflickr.com/" + node.server + "/" + node.id + "_" + node.secret + ".jpg" });
+          var img = "https://farm2.staticflickr.com/" + node.server + "/" + node.id + "_" + node.secret + ".jpg";
+          var thumbnail = "https://farm2.staticflickr.com/" + node.server + "/" + node.id + "_" + node.secret + "_m.jpg"
+          this.items.push({ id: index, title: node.title, image: img, thumbnail: thumbnail });
         }.bind(this));
       }
 
