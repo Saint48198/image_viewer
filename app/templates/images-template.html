@@ -14,14 +14,7 @@
 <script id="template-lightbox" type="text/html">
   <div id="modal-image" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-      <div class="modal-content" id="container-content">
-        <figure>
-          <img src="<%data.image%>" alt="<%data.title%>">
-        </figure>
-        <div class="btn-control btn-prev"><button type="button" title="previous" id="btn-previous" data-id="<%data.id%>"><<</button></div>
-        <div class="btn-control btn-next"><button type="button" title="next" id="btn-next" data-id="<%data.id%>">>></button></div>
-        <div class="btn-control btn-close"><button type="button" title="close" id="btn-close">x</button> </div>
-      </div>
+      <div class="modal-content" id="container-content"></div>
     </div>
   </div>
 </script>
@@ -29,7 +22,7 @@
   <figure>
     <img src="<%data.image%>" alt="<%data.title%>">
   </figure>
-  <div class="btn-control btn-prev"><button type="button" title="previous" data-id="<%data.id%>"><<</button></div>
-  <div class="btn-control btn-next"><button type="button" title="next" data-id="<%data.id%>">>></button></div>
-  <div class="btn-control btn-close"><button type="button" title="close">x</button> </div>
+  <div class="btn-control btn-prev"><button type="button" title="previous" id="btn-previous" data-id="<%data.id%>"><<</button></div>
+  <div class="btn-control btn-next"><button type="button" title="next" id="btn-next" data-id="<%data.id%>">>></button></div>
+  <div class="btn-control btn-close"><button type="button" title="close" id="btn-close">x</button> </div>
 </script>

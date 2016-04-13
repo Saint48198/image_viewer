@@ -54,6 +54,7 @@
 
           var image = pageView.imagesCollection.get(id);
           pageView.appendUsingTemplate("template-lightbox", document.getElementsByTagName("body")[0], { data: image });
+          pageView.updateLightBoxImage("update", parseInt(id));
 
           document.getElementById("modal-image").addEventListener("click", pageView.handleLightBoxClickEvents);
 
@@ -61,7 +62,6 @@
 
         handleLightBoxClickEvents: function (e) {
           var target = e.target;
-
           if (target.id === "modal-image" || target.id === "btn-close") {
             pageView.removeLightBox();
             return false;
@@ -97,9 +97,11 @@
             if (currentId === 0) {
               id = total;
             }
+          } else {
+            id = currentId;
           }
 
-          if (id) {
+          if (typeof (id) !== 'undefined') {
             var image = pageView.imagesCollection.get(id);
             if (image) {
               pageView.replaceWithTemplate("template-lightboxContent", document.getElementById("container-content"), { data: image });
