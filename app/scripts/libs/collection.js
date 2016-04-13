@@ -19,39 +19,39 @@
 
     Collection.prototype.items = [],
 
-    Collection.prototype.fetch = function (data) {
-      if(XMLHttpRequest) {
-        req = new XMLHttpRequest();
+      Collection.prototype.fetch = function (data) {
+        if(XMLHttpRequest) {
+          req = new XMLHttpRequest();
 
-        if('withCredentials' in req) {
-          if (!req) {
-            // 'Giving up :( Cannot create an XMLHTTP instance'
-            return false;
+          if('withCredentials' in req) {
+            if (!req) {
+              // 'Giving up :( Cannot create an XMLHTTP instance'
+              return false;
+            }
+
+            if (this.error) {
+              req.onerror = this.error;
+            }
+
+
+            req.onreadystatechange = this.handleServiceRequest.bind(this);
+            req.open("GET", this.url, true);
+            req.send(data);
           }
+        } else if (XDomainRequest) {
+          req = new XDomainRequest();
+          req.open("GET", this.url, true);
 
           if (this.error) {
             req.onerror = this.error;
           }
 
 
-          req.onreadystatechange = this.handleServiceRequest.bind(this);
-          req.open("GET", this.url, true);
+          req.onload = this.handleServiceRequest.bind(this);
           req.send(data);
         }
-      } else if (XDomainRequest) {
-        req = new XDomainRequest();
-        req.open("GET", this.url, true);
 
-        if (this.error) {
-          req.onerror = this.error;
-        }
-
-
-        req.onload = this.handleServiceRequest.bind(this);
-        req.send(data);
-      }
-
-    };
+      };
 
     Collection.prototype.handleServiceRequest = function () {
       // call is done
@@ -82,6 +82,12 @@
       if (this.success) {
         this.success.call(this, this.items);
       }
+    };
+
+    Collection.prototype.get = function(id) {
+      return this.items.filter(function (item) {
+        return item.id === id;
+      })[0];
     };
 
 

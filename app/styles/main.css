@@ -1,31 +1,105 @@
-header {
-  background: #222;
-  padding: 5px 8px;
-  margin-bottom: 15px;
+
+
+/* site styles */
+html, body {
+  min-height: 100%;
 }
 
-header > div {
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  min-height: 100%;
+}
+
+header >  div,
+main,
+footer > div {
   width: 900px;
   margin: 0 auto;
+}
+
+header {
+  background: #333;
+  padding: 8px 5px;
+  margin-bottom: 15px;
   color: #fff;
   font: 24px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-main > div {
-  width: 900px;
-  margin: 0 auto;
+main ul {
+  -webkit-columns: 4;
+  -moz-columns: 4;
+  columns: 4;
+}
+main li {
+  margin-bottom: 10px;
+  display: inline-block;
+  width: 100%;
+}
+
+main figure {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+main img {
+  width: 100%;
 }
 
 footer {
-  padding: 10px 0;
+  padding: 8px 5px;
   border-top: 1px solid #ccc;
   margin-top: 15px;
+  font: 12px/1 Helvetica, Arial, sans-serif;
 }
 
-footer > div {
-  width: 900px;
-  margin: 0 auto;
-  font: 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #ccc;
-  text-align: right;
+/* lightbox */
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.25);
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  width: 400px;
+  margin-left: -200px;
+  background: #fff;
+  border: 1px solid #333;
+}
+
+.modal-dialog img {
+  width: 100%;
+  height: auto;
+}
+
+.modal-dialog .btn-control {
+  position: absolute;
+}
+
+.modal-dialog .btn-close {
+  top: 10px;
+  right: 10px;
+}
+
+.modal-dialog .btn-prev {
+  top: 50%;
+  left: 10px;
+}
+
+.modal-dialog .btn-next {
+  top: 50%;
+  right: 10px;
+}
+
+.modal-dialog button {
+  border: none;
+  background: #fff;
+  border-radius: 3px;
+  color: #000;
 }

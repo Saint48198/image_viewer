@@ -7,7 +7,7 @@
       var wrapper = document.createElement("div");
       wrapper.innerHTML = htmlString;
 
-      return wrapper.firstChild;
+      return wrapper.childNodes;
     };
 
     // ref - http://krasimirtsonev.com/blog/article/Javascript-template-engine-in-just-20-line
@@ -102,12 +102,15 @@
 
     View.prototype.appendTemplateToPage = function (htmlString) {
       var html = convertToDom(htmlString);
-
+      console.log(html);
       // update the template store with the new template
       window.templateStore[this.template] = html;
 
       // append the html template to the end of the body
-      document.getElementsByTagName("body")[0].appendChild(html);
+      for(var i = 0; i < html.length; i++) {
+        document.getElementsByTagName("body")[0].appendChild(html[i]);
+      }
+
     };
 
     View.prototype.replaceWithTemplate = function(templateId, containerElement, context) {
@@ -125,11 +128,10 @@
       var html;
 
       if (template) {
-        html = templateEngine(template.innerHTML, context);
-        containerElement.appendChild(convertToDom(html.trim()));
+        html = convertToDom(templateEngine(template.innerHTML, context).trim());
+        containerElement.appendChild(html[0]);
       }
     };
-
     return View;
   };
 

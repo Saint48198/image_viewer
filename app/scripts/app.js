@@ -14,7 +14,7 @@
           pageView.replaceWithTemplate("template-page", pageView.el, { copyYear: new Date().getFullYear() });
 
           var images = new Collection({
-            url: "https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=ab7d8b1ae8f6e5991c44c31f529783f7&gallery_id=72157663204881480&format=json&nojsoncallback=1&api_sig=60ba826eed2ca240e784bff9a4f9bef1",
+            url: "https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=0a50a1937d5ca6f848582b724238ef9b&gallery_id=72157663204881480&format=json&nojsoncallback=1",
             success: function (data) {
               var imagesView =  new window.View({
                 el: document.getElementsByTagName("main")[0],
@@ -24,16 +24,55 @@
                 }
               });
               imagesView.render();
+
+              document.getElementsByTagName("main")[0].addEventListener("click", pageView.handleImageClick);
+
             },
             error: function () {
-
+              alert ("error getting data from service");
             }
           });
 
           images.fetch();
 
 
-        }.bind(this)
+        }.bind(this),
+
+        handleImageClick: function (e) {
+          var target = e.target;
+          if (target.tagName.toLowerCase() === "img") {
+            target = target.parentNode;
+          }
+
+          if (target.getAttribute("data-id")) {
+            pageView.displayLightBock(parseInt(target.getAttribute("data-id")));
+          }
+        },
+
+        displayLightBock: function (id) {
+          this.removeLightBox();
+          console.log(id);
+          pageView.appendUsingTemplate("template-lightbox", document.getElementsByTagName("body")[0], {});
+
+          document.getElementById("modal-image").addEventListener("click", pageView.handleLightBoxClickEvents);
+
+        },
+
+        handleLightBoxClickEvents: function (e) {
+          var target = e.target;
+          console.log(target);
+        },
+
+        removeLightBox: function () {
+          if (document.getElementById("modal-image")) {
+            document.getElementById("modal-image").removeEventListener("click", pageView.handleLightBoxClickEvents, false);
+            pageView.removeElement("modal-image");
+          }
+        },
+
+        removeElement: function(id) {
+          return (pageView.tmpElem = document.getElementById(id)).parentNode.removeChild(pageView.tmpElem);
+        }
       });
 
       pageView.render();
