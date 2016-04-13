@@ -61,6 +61,11 @@
         handleLightBoxClickEvents: function (e) {
           var target = e.target;
           console.log(target);
+
+          if (target.id === "modal-image" || target.title === "close") {
+            pageView.removeLightBox();
+            return false;
+          }
         },
 
         removeLightBox: function () {
